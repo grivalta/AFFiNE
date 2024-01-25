@@ -1070,5 +1070,21 @@
   "com.affine.journal.conflict-show-more": "{{count}} more articles",
   "com.affine.journal.app-sidebar-title": "Journals",
   "com.affine.journal.cmdk.append-to-today": "Append to Journal",
-  "com.affine.editor.reference-not-found": "Linked page not found"
+  "com.affine.editor.reference-not-found": "Linked page not found",
+  "com.affine.page-properties.backlinks": "Backlinks",
+  "com.affine.page-properties.page-info": "Page Info",
+  "com.affine.page-properties.settings.title": "customize properties",
+  "com.affine.page-properties.add-property": "Add a property",
+  "com.affine.page-properties.add-property.menu.header": "Properties",
+  "com.affine.page-properties.create-property.menu.header": "Type",
+  "com.affine.page-properties.add-property.menu.create": "Create property",
+  "com.affine.page-properties.property-value-placeholder": "Empty",
+  "com.affine.page-properties.property.hide-in-view": "Hide in view",
+  "com.affine.page-properties.property.hide-in-view-when-empty": "Hide in view when empty",
+  "com.affine.page-properties.property.show-in-view": "Show in view",
+  "com.affine.page-properties.property.always-hide": "Always hide",
+  "com.affine.page-properties.property.always-show": "Always show",
+  "com.affine.page-properties.property.hide-when-empty": "Hide when empty",
+  "com.affine.page-properties.property.required": "Required",
+  "com.affine.page-properties.property.remove-property": "Remove property"
 }

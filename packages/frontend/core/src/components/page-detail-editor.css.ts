@@ -19,6 +19,3 @@ globalStyle(`${editor} .affine-doc-viewport`, {
   paddingLeft: '20px',
   scrollbarGutter: 'stable',
 });
-globalStyle('.is-public-page page-meta-tags', {
-  display: 'none',
-});
