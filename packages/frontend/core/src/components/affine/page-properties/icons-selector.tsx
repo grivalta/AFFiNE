@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import { iconNames, nameToIcon, type PagePropertyIcon } from './icons-mapping';
 import * as styles from './icons-selector.css';
 
-const iconsPerRow = 10;
+const iconsPerRow = 6;
 
 const iconRows = iconNames.reduce((acc, iconName, index) => {
   const rowIndex = Math.floor(index / iconsPerRow);
@@ -50,15 +50,13 @@ export const IconsSelectorPanel = ({
                   const Icon = nameToIcon(iconName);
                   return (
                     <div
+                      onClick={() => onSelectedChange(iconName)}
                       key={iconName}
                       className={styles.iconButton}
                       data-name={iconName}
                       data-active={selected === iconName}
                     >
-                      <Icon
-                        key={iconName}
-                        onClick={() => onSelectedChange(iconName)}
-                      />
+                      <Icon key={iconName} />
                     </div>
                   );
                 })}

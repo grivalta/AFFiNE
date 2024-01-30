@@ -11,7 +11,9 @@ import {
   type ChangeEventHandler,
   cloneElement,
   isValidElement,
+  type KeyboardEventHandler,
   type MouseEventHandler,
+  useCallback,
 } from 'react';
 
 import {
@@ -80,12 +82,34 @@ export const EditPropertyNameMenuItem = ({
   onNameChange: onChange,
   onIconChange,
 }: {
-  onNameBlur: ChangeEventHandler;
-  onNameChange: ChangeEventHandler;
+  onNameBlur: (e: string) => void;
+  onNameChange: (e: string) => void;
   onIconChange: (icon: PagePropertyIcon) => void;
   property: PageInfoCustomPropertyMeta;
 }) => {
   const iconName = getSafeIconName(property.icon, property.type);
+  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    e => {
+      e.stopPropagation();
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        onBlur(e.currentTarget.value);
+      }
+    },
+    [onBlur]
+  );
+  const handleBlur = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      onBlur(e.target.value);
+    },
+    [onBlur]
+  );
+  const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    e => {
+      onChange(e.target.value);
+    },
+    [onChange]
+  );
   return (
     <div className={styles.propertyRowNamePopupRow}>
       <IconsSelectorButton
@@ -95,8 +119,9 @@ export const EditPropertyNameMenuItem = ({
       <input
         className={styles.propertyNameInput}
         defaultValue={property.name}
-        onBlur={onBlur}
-        onChange={onChange}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        onKeyDown={onKeyDown}
         placeholder="unnamed"
       />
     </div>
