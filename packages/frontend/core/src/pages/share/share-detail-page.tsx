@@ -1,4 +1,5 @@
 import { MainContainer } from '@affine/component/workspace';
+import { useCurrentLoginStatus } from '@affine/core/hooks/affine/use-current-login-status';
 import { usePageDocumentTitle } from '@affine/core/hooks/use-global-state';
 import { WorkspaceFlavour } from '@affine/env/workspace';
 import { fetchWithTraceReport } from '@affine/graphql';
@@ -6,6 +7,7 @@ import {
   AffineCloudBlobStorage,
   StaticBlobStorage,
 } from '@affine/workspace-impl';
+import { Logo1Icon } from '@blocksuite/icons';
 import {
   EmptyBlobStorage,
   LocalBlobStorage,
@@ -36,6 +38,7 @@ import { PageDetailEditor } from '../../components/page-detail-editor';
 import { SharePageNotFoundError } from '../../components/share-page-not-found-error';
 import { CurrentPageService } from '../../modules/page';
 import { CurrentWorkspaceService } from '../../modules/workspace';
+import * as styles from './share-detail-page.css';
 import { ShareHeader } from './share-header';
 
 type DocPublishMode = 'edgeless' | 'page';
@@ -181,7 +184,7 @@ export const Component = () => {
   const page = useServiceOptional(Page);
 
   usePageDocumentTitle(page?.meta);
-
+  const loginStatus = useCurrentLoginStatus();
   if (!page) {
     return;
   }
@@ -189,18 +192,35 @@ export const Component = () => {
   return (
     <AppContainer>
       <MainContainer>
-        <ShareHeader
-          pageId={page.id}
-          publishMode={publishMode}
-          blockSuiteWorkspace={page.blockSuitePage.workspace}
-        />
-        <PageDetailEditor
-          isPublic
-          publishMode={publishMode}
-          workspace={page.blockSuitePage.workspace}
-          pageId={page.id}
-          onLoad={() => noop}
-        />
+        <div className={styles.root}>
+          <div className={styles.mainContainer}>
+            <ShareHeader
+              pageId={page.id}
+              publishMode={publishMode}
+              blockSuiteWorkspace={page.blockSuitePage.workspace}
+            />
+            <div className={styles.editorContainer}>
+              <PageDetailEditor
+                isPublic
+                publishMode={publishMode}
+                workspace={page.blockSuitePage.workspace}
+                pageId={page.id}
+                onLoad={() => noop}
+              />
+              {loginStatus !== 'authenticated' ? (
+                <a
+                  href="https://affine.pro"
+                  target="_blank"
+                  className={styles.link}
+                  rel="noreferrer"
+                >
+                  <span className={styles.linkText}>Create with</span>
+                  <Logo1Icon fontSize={20} />
+                </a>
+              ) : null}
+            </div>
+          </div>
+        </div>
       </MainContainer>
     </AppContainer>
   );

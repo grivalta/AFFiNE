@@ -1,13 +1,13 @@
 import { Avatar } from '@affine/component/ui/avatar';
 import { Menu, MenuIcon, MenuItem } from '@affine/component/ui/menu';
+import { useCurrentUser } from '@affine/core/hooks/affine/use-current-user';
 import { useAsyncCallback } from '@affine/core/hooks/affine-async-hooks';
+import { signOutCloud } from '@affine/core/utils/cloud-utils';
 import { useAFFiNEI18N } from '@affine/i18n/hooks';
 import { SignOutIcon } from '@blocksuite/icons';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { useCurrentUser } from '../../../hooks/affine/use-current-user';
-import { signOutCloud } from '../../../utils/cloud-utils';
 import * as styles from './styles.css';
 
 export const PublishPageUserAvatar = () => {
