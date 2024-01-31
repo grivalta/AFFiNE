@@ -14,7 +14,6 @@ export const footerContainer = style({
   paddingLeft: cssVar('editorSidePadding'),
   paddingRight: cssVar('editorSidePadding'),
   marginBottom: '200px',
-  transform: 'translateX(10px)',
 });
 export const footer = style({
   display: 'flex',

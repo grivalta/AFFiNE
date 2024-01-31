@@ -9,10 +9,10 @@ import type { ShareHeaderRightItemProps } from './index';
 import * as styles from './styles.css';
 
 export const AuthenticatedItem = ({
-  setShowDivider,
+  setIsMember,
   ...props
-}: { setShowDivider: (show: boolean) => void } & ShareHeaderRightItemProps) => {
-  const { workspaceId, pageId, publishMode } = props;
+}: { setIsMember: (value: boolean) => void } & ShareHeaderRightItemProps) => {
+  const { workspaceId, pageId } = props;
   const user = useCurrentUser();
   const members = useMembers(workspaceId, 0);
   const isMember = members.some(m => m.id === user.id);
@@ -24,10 +24,10 @@ export const AuthenticatedItem = ({
   }, [workspaceId, pageId, jumpToPage]);
 
   useEffect(() => {
-    if (isMember || publishMode === 'edgeless') {
-      setShowDivider(true);
+    if (isMember) {
+      setIsMember(true);
     }
-  }, [isMember, publishMode, setShowDivider]);
+  }, [isMember, setIsMember]);
 
   if (isMember) {
     return (

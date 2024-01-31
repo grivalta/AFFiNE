@@ -15,19 +15,26 @@ export type ShareHeaderRightItemProps = {
 
 const ShareHeaderRightItem = ({ ...props }: ShareHeaderRightItemProps) => {
   const loginStatus = useCurrentLoginStatus();
-
   const { publishMode } = props;
-  const [showDivider, setShowDivider] = useState(false);
+  const [isMember, setIsMember] = useState(false);
 
   // TODO: Add TOC
   return (
     <div className={styles.rightItemContainer}>
       {loginStatus === 'authenticated' ? (
-        <AuthenticatedItem setShowDivider={setShowDivider} {...props} />
+        <AuthenticatedItem setIsMember={setIsMember} {...props} />
       ) : null}
       {publishMode === 'edgeless' ? <PresentButton /> : null}
-      {showDivider ? <div className={styles.headerDivider} /> : null}
-      {loginStatus === 'authenticated' ? <PublishPageUserAvatar /> : null}
+      {loginStatus === 'authenticated' ? (
+        <>
+          <div
+            className={styles.headerDivider}
+            data-is-member={isMember}
+            data-is-edgeless={publishMode === 'edgeless'}
+          />
+          <PublishPageUserAvatar />
+        </>
+      ) : null}
     </div>
   );
 };

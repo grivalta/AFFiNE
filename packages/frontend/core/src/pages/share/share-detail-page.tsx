@@ -206,12 +206,13 @@ export const Component = () => {
             <Scrollable.Root>
               <Scrollable.Viewport className={styles.editorContainer}>
                 <PageDetailEditor
+                  isPublic
                   publishMode={publishMode}
                   workspace={page.blockSuitePage.workspace}
                   pageId={page.id}
                   onLoad={() => noop}
                 />
-                <ShareFooter />
+                {publishMode === 'page' ? <ShareFooter /> : null}
               </Scrollable.Viewport>
               <Scrollable.Scrollbar />
             </Scrollable.Root>
