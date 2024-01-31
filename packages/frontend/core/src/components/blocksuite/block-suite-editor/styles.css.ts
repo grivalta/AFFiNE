@@ -2,7 +2,6 @@ import { cssVar } from '@toeverything/theme';
 import { style } from '@vanilla-extract/css';
 export const docEditorRoot = style({
   display: 'block',
-  height: '100%',
   background: cssVar('backgroundPrimaryColor'),
 });
 

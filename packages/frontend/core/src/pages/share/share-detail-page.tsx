@@ -41,6 +41,7 @@ import { SharePageNotFoundError } from '../../components/share-page-not-found-er
 import { CurrentPageService } from '../../modules/page';
 import { CurrentWorkspaceService } from '../../modules/workspace';
 import * as styles from './share-detail-page.css';
+import { ShareFooter } from './share-footer';
 import { ShareHeader } from './share-header';
 
 type DocPublishMode = 'edgeless' | 'page';
@@ -205,12 +206,12 @@ export const Component = () => {
             <Scrollable.Root>
               <Scrollable.Viewport className={styles.editorContainer}>
                 <PageDetailEditor
-                  isPublic
                   publishMode={publishMode}
                   workspace={page.blockSuitePage.workspace}
                   pageId={page.id}
                   onLoad={() => noop}
                 />
+                <ShareFooter />
               </Scrollable.Viewport>
               <Scrollable.Scrollbar />
             </Scrollable.Root>
@@ -222,7 +223,7 @@ export const Component = () => {
                 rel="noreferrer"
               >
                 <span className={styles.linkText}>
-                  {t['com.affine.share-page.footer.create-with']()}
+                  {t['com.affine.share-page.footer.built-with']()}
                 </span>
                 <Logo1Icon fontSize={20} />
               </a>
