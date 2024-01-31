@@ -1,8 +1,10 @@
+import { Scrollable } from '@affine/component';
 import { MainContainer } from '@affine/component/workspace';
 import { useCurrentLoginStatus } from '@affine/core/hooks/affine/use-current-login-status';
 import { usePageDocumentTitle } from '@affine/core/hooks/use-global-state';
 import { WorkspaceFlavour } from '@affine/env/workspace';
 import { fetchWithTraceReport } from '@affine/graphql';
+import { useAFFiNEI18N } from '@affine/i18n/hooks';
 import {
   AffineCloudBlobStorage,
   StaticBlobStorage,
@@ -126,6 +128,7 @@ export const Component = () => {
   const workspaceManager = useService(WorkspaceManager);
 
   const currentWorkspace = useService(CurrentWorkspaceService);
+  const t = useAFFiNEI18N();
 
   useEffect(() => {
     // create a workspace for share page
@@ -199,26 +202,31 @@ export const Component = () => {
               publishMode={publishMode}
               blockSuiteWorkspace={page.blockSuitePage.workspace}
             />
-            <div className={styles.editorContainer}>
-              <PageDetailEditor
-                isPublic
-                publishMode={publishMode}
-                workspace={page.blockSuitePage.workspace}
-                pageId={page.id}
-                onLoad={() => noop}
-              />
-              {loginStatus !== 'authenticated' ? (
-                <a
-                  href="https://affine.pro"
-                  target="_blank"
-                  className={styles.link}
-                  rel="noreferrer"
-                >
-                  <span className={styles.linkText}>Create with</span>
-                  <Logo1Icon fontSize={20} />
-                </a>
-              ) : null}
-            </div>
+            <Scrollable.Root>
+              <Scrollable.Viewport className={styles.editorContainer}>
+                <PageDetailEditor
+                  isPublic
+                  publishMode={publishMode}
+                  workspace={page.blockSuitePage.workspace}
+                  pageId={page.id}
+                  onLoad={() => noop}
+                />
+              </Scrollable.Viewport>
+              <Scrollable.Scrollbar />
+            </Scrollable.Root>
+            {loginStatus !== 'authenticated' ? (
+              <a
+                href="https://affine.pro"
+                target="_blank"
+                className={styles.link}
+                rel="noreferrer"
+              >
+                <span className={styles.linkText}>
+                  {t['com.affine.share-page.footer.create-with']()}
+                </span>
+                <Logo1Icon fontSize={20} />
+              </a>
+            ) : null}
           </div>
         </div>
       </MainContainer>

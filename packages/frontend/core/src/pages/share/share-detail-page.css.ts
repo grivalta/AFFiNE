@@ -24,9 +24,7 @@ export const editorContainer = style({
   display: 'flex',
   flexDirection: 'column',
   flexShrink: 0,
-  overflow: 'hidden',
   zIndex: 0,
-  height: '100%',
 });
 
 export const link = style({

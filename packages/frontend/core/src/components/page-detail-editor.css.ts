@@ -1,7 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 export const editor = style({
   flex: 1,
-  overflow: 'auto',
   selectors: {
     '&.full-screen': {
       vars: {
