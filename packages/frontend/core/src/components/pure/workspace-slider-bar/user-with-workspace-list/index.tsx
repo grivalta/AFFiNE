@@ -89,7 +89,11 @@ export const UserWithWorkspaceList = ({
   }, [setDisableCloudOpen, setOpenSignIn]);
 
   const onNewWorkspace = useCallback(() => {
-    if (!isAuthenticated && !environment.isDesktop) {
+    if (
+      !isAuthenticated &&
+      !environment.isDesktop &&
+      !runtimeConfig.allowLocalWorkspace
+    ) {
       return openSignInModal();
     }
     setOpenCreateWorkspaceModal('new');

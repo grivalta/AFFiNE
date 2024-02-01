@@ -54,7 +54,8 @@ interface NameWorkspaceContentProps extends ConfirmModalProps {
   ) => void;
 }
 
-const shouldEnableCloud = !environment.isDesktop;
+const shouldEnableCloud =
+  !runtimeConfig.allowLocalWorkspace && !environment.isDesktop;
 
 const NameWorkspaceContent = ({
   onConfirmName,
