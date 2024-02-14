@@ -11,17 +11,12 @@ import { WorkspaceFlavour } from '@affine/env/workspace';
 import { useAFFiNEI18N } from '@affine/i18n/hooks';
 import { _addLocalWorkspace } from '@affine/workspace-impl';
 import { WorkspaceManager } from '@toeverything/infra';
-import { getCurrentStore } from '@toeverything/infra/atom';
-import {
-  buildShowcaseWorkspace,
-  initEmptyPage,
-} from '@toeverything/infra/blocksuite';
+import { buildShowcaseWorkspace, initEmptyPage } from '@toeverything/infra';
 import { useService } from '@toeverything/infra/di';
 import type { KeyboardEvent } from 'react';
 import { useLayoutEffect } from 'react';
 import { useCallback, useState } from 'react';
 
-import { setPageModeAtom } from '../../../atoms';
 import * as style from './index.css';
 
 type CreateWorkspaceStep =
@@ -148,28 +143,27 @@ export const CreateWorkspaceModal = ({
     async (name: string) => {
       // this will be the last step for web for now
       // fix me later
-      const { id } = await workspaceManager.createWorkspace(
-        WorkspaceFlavour.LOCAL,
-        async workspace => {
-          workspace.meta.setName(name);
-          if (runtimeConfig.enablePreloading) {
-            await buildShowcaseWorkspace(workspace, {
-              store: getCurrentStore(),
-              atoms: {
-                pageMode: setPageModeAtom,
-              },
-            });
-          } else {
+      if (runtimeConfig.enablePreloading) {
+        const { id } = await buildShowcaseWorkspace(
+          workspaceManager,
+          WorkspaceFlavour.LOCAL,
+          name
+        );
+        onCreate(id);
+      } else {
+        const { id } = await workspaceManager.createWorkspace(
+          WorkspaceFlavour.LOCAL,
+          async workspace => {
+            workspace.meta.setName(name);
             const page = workspace.createPage();
             workspace.setPageMeta(page.id, {
               jumpOnce: true,
             });
             initEmptyPage(page);
           }
-          logger.debug('create first workspace');
-        }
-      );
-      onCreate(id);
+        );
+        onCreate(id);
+      }
     },
     [onCreate, workspaceManager]
   );

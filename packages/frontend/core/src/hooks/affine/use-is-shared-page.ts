@@ -6,10 +6,10 @@ import {
   revokePublicPageMutation,
 } from '@affine/graphql';
 import { useAFFiNEI18N } from '@affine/i18n/hooks';
+import type { PageMode } from '@toeverything/infra';
 import { useSetAtom } from 'jotai';
 import { useCallback, useMemo } from 'react';
 
-import type { PageMode } from '../../atoms';
 import { useMutation } from '../use-mutation';
 import { useQuery } from '../use-query';
 

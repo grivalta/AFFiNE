@@ -266,6 +266,7 @@ test('assert the recent browse pages are on the recent list', async ({
   {
     const title = getBlockSuiteEditorTitle(page);
     await title.click();
+    await page.waitForTimeout(200);
     await title.pressSequentially('sgtokidoki', { delay: 100 });
     await expect(title).toHaveText('sgtokidoki');
   }
@@ -278,6 +279,7 @@ test('assert the recent browse pages are on the recent list', async ({
   {
     const title = getBlockSuiteEditorTitle(page);
     await title.click();
+    await page.waitForTimeout(200);
     await title.pressSequentially('theliquidhorse', { delay: 100 });
     await expect(title).toHaveText('theliquidhorse');
   }
@@ -290,6 +292,7 @@ test('assert the recent browse pages are on the recent list', async ({
   {
     const title = getBlockSuiteEditorTitle(page);
     await title.click();
+    await page.waitForTimeout(200);
     await title.pressSequentially('battlekot', { delay: 100 });
     await expect(title).toHaveText('battlekot');
   }

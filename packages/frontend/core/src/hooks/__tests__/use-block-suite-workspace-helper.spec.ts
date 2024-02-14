@@ -6,7 +6,7 @@ import 'fake-indexeddb/auto';
 import { __unstableSchemas, AffineSchemas } from '@blocksuite/blocks/models';
 import { Schema, Workspace } from '@blocksuite/store';
 import { renderHook } from '@testing-library/react';
-import { initEmptyPage } from '@toeverything/infra/blocksuite';
+import { initEmptyPage } from '@toeverything/infra';
 import { beforeEach, describe, expect, test } from 'vitest';
 
 import { useBlockSuitePageMeta } from '../use-block-suite-page-meta';

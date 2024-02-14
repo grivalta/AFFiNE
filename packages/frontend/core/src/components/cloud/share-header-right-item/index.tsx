@@ -1,4 +1,5 @@
-import type { PageMode } from '../../../atoms';
+import type { PageMode } from '@toeverything/infra';
+
 import { useCurrentLoginStatus } from '../../../hooks/affine/use-current-login-status';
 import { AuthenticatedItem } from './authenticated-item';
 import { PresentButton } from './present';

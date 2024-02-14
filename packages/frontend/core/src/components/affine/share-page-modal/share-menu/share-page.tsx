@@ -11,12 +11,12 @@ import { Menu, MenuItem, MenuTrigger } from '@affine/component/ui/menu';
 import { WorkspaceFlavour } from '@affine/env/workspace';
 import { useAFFiNEI18N } from '@affine/i18n/hooks';
 import { ArrowRightSmallIcon } from '@blocksuite/icons';
-import { useAtomValue } from 'jotai';
+import { useService } from '@toeverything/infra';
+import { useLiveData } from '@toeverything/infra';
+import { Page, type PageMode } from '@toeverything/infra';
 import { useMemo, useState } from 'react';
 import { useCallback } from 'react';
 
-import type { PageMode } from '../../../../atoms';
-import { currentModeAtom } from '../../../../atoms/mode';
 import { useIsSharedPage } from '../../../../hooks/affine/use-is-shared-page';
 import { useServerBaseUrl } from '../../../../hooks/affine/use-server-config';
 import * as styles from './index.css';
@@ -74,6 +74,7 @@ export const AffineSharePage = (props: ShareMenuProps) => {
     currentPage,
   } = props;
   const pageId = currentPage.id;
+  const page = useService(Page);
   const [showDisable, setShowDisable] = useState(false);
   const {
     isSharedPage,
@@ -82,14 +83,15 @@ export const AffineSharePage = (props: ShareMenuProps) => {
     currentShareMode,
     disableShare,
   } = useIsSharedPage(workspaceId, currentPage.id);
-  const currentPageMode = useAtomValue(currentModeAtom);
+
+  const currentPageMode = useLiveData(page.mode);
 
   const defaultMode = useMemo(() => {
     if (isSharedPage) {
       // if it's a shared page, use the share mode
       return currentShareMode;
     }
-    // default to current page mode
+    // default to  page mode
     return currentPageMode;
   }, [currentPageMode, currentShareMode, isSharedPage]);
   const [mode, setMode] = useState<PageMode>(defaultMode);
