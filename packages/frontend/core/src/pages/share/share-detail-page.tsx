@@ -6,24 +6,24 @@ import {
   AffineCloudBlobStorage,
   StaticBlobStorage,
 } from '@affine/workspace-impl';
+import type { Page } from '@toeverything/infra';
 import {
   EmptyBlobStorage,
   LocalBlobStorage,
   LocalSyncStorage,
-  Page,
   PageManager,
   type PageMode,
   ReadonlyMappingSyncStorage,
   RemoteBlobStorage,
+  ServiceProviderContext,
   useLiveData,
   useService,
-  useServiceOptional,
   WorkspaceIdContext,
   WorkspaceManager,
   WorkspaceScope,
 } from '@toeverything/infra';
 import { noop } from 'foxact/noop';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { LoaderFunction } from 'react-router-dom';
 import {
   isRouteErrorResponse,
@@ -35,7 +35,6 @@ import {
 import { AppContainer } from '../../components/affine/app-container';
 import { PageDetailEditor } from '../../components/page-detail-editor';
 import { SharePageNotFoundError } from '../../components/share-page-not-found-error';
-import { CurrentPageService } from '../../modules/page';
 import { CurrentWorkspaceService } from '../../modules/workspace';
 import { ShareHeader } from './share-header';
 
@@ -124,6 +123,7 @@ export const Component = () => {
   const workspaceManager = useService(WorkspaceManager);
 
   const currentWorkspace = useService(CurrentWorkspaceService);
+  const [page, setPage] = useState<Page | null>(null);
 
   useEffect(() => {
     // create a workspace for share page
@@ -160,10 +160,8 @@ export const Component = () => {
           true
         );
 
-        const currentPage = workspace.services.get(CurrentPageService);
-
         currentWorkspace.openWorkspace(workspace);
-        currentPage.openPage(page);
+        setPage(page);
       })
       .catch(err => {
         console.error(err);
@@ -177,7 +175,6 @@ export const Component = () => {
     workspaceManager,
   ]);
 
-  const page = useServiceOptional(Page);
   const pageTitle = useLiveData(page?.title);
 
   usePageDocumentTitle(pageTitle);
@@ -187,22 +184,24 @@ export const Component = () => {
   }
 
   return (
-    <AppContainer>
-      <MainContainer>
-        <ShareHeader
-          pageId={page.id}
-          publishMode={publishMode}
-          blockSuiteWorkspace={page.blockSuitePage.workspace}
-        />
-        <PageDetailEditor
-          isPublic
-          publishMode={publishMode}
-          workspace={page.blockSuitePage.workspace}
-          pageId={page.id}
-          onLoad={() => noop}
-        />
-      </MainContainer>
-    </AppContainer>
+    <ServiceProviderContext.Provider value={page.services}>
+      <AppContainer>
+        <MainContainer>
+          <ShareHeader
+            pageId={page.id}
+            publishMode={publishMode}
+            blockSuiteWorkspace={page.blockSuitePage.workspace}
+          />
+          <PageDetailEditor
+            isPublic
+            publishMode={publishMode}
+            workspace={page.blockSuitePage.workspace}
+            pageId={page.id}
+            onLoad={() => noop}
+          />
+        </MainContainer>
+      </AppContainer>
+    </ServiceProviderContext.Provider>
   );
 };
 
